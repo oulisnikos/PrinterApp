@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BluetoothSerial } from '@ionic-native/bluetooth-serial/ngx';
+import { BackendService } from './backend.service';
 
 @Injectable({
   providedIn: 'root'

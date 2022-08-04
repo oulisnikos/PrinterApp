@@ -1,3 +1,4 @@
+import { BackendService } from './../services/backend.service';
 import { Component } from '@angular/core';
 import { PrintService } from '../services/print.service';
 
@@ -10,8 +11,10 @@ export class Tab1Page {
   bluetoothList: any=[];
   selectedPrinter: any;
   testText: string;
-
-  constructor(private print: PrintService) {
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  mode: Boolean;
+  constructor(private print: PrintService,
+    private backEnd: BackendService) {
     this.listPrinter();
   }
     //This will list all of your bluetooth devices
@@ -34,8 +37,14 @@ export class Tab1Page {
   printStuff()
   {
     //The text that you want to print
-    const myText='Hello hello hello \n\n\n This is a test \n\n\n';
-    this.print.sendToBluetoothPrinter(this.selectedPrinter,this.testText);
+    if (this.mode) {
+      this.backEnd.getReceiptText().subscribe((res) => {
+        console.log('This is receipt text ', res.text);
+        this.testText = res.text;
+      });
+    }
+    this.print.sendToBluetoothPrinter(this.selectedPrinter, this.testText);
+
   }
 
 }
